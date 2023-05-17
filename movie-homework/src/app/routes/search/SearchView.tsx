@@ -51,42 +51,11 @@ export const SearchView: React.FC<SearchViewProps> = ({
     }
   }, [])
 
-  // const handleAutocompleteChange = (event: React.SyntheticEvent<Element, Event>, selectedOption: Movie | null) => {
-  //   if (selectedOption) {
-  //     onMovieSelect(selectedOption.imdbID)
-  //     navigate('/details')
-  //   }
-  // }
-
   return (
     <>
       <Grid container>
         <Grid item xs={2} />
         <Grid item xs={8} sx={styles.box}>
-          {/* <Autocomplete
-            options={moviesResponse || []}
-            getOptionLabel={(option) => option.Title}
-            onInputChange={(event, newInputValue) => handleSearch(newInputValue)}
-            onChange={handleAutocompleteChange}
-            renderInput={(params) => (
-              <TextField
-                {...params}
-                variant="filled"
-                color="error"
-                InputProps={{ ...params.InputProps, style: { background: 'white', color: 'e42441' } }}
-                InputLabelProps={{ shrink: true }}
-                label={<b>{t('app.search.title')}</b>}
-                value={searchTerm}
-              />
-            )}
-            renderOption={(props, option) => {
-              return (
-                <li {...props} key={option.imdbID}>
-                  {option.Title}
-                </li>
-              )
-            }}
-          /> */}
           <TextField
             fullWidth
             focused
