@@ -1,0 +1,24 @@
+{
+    "app": {
+        "navbar": {
+            "home": "Home",
+            "details": "Details",
+            "favorites": "Favorites"
+        },
+        "search": {
+            "title": "Search",
+            "loadMore": "Load More"
+        },
+        "detail": {
+            "director": "Director",
+            "cast": "Cast",
+            "overview": "Overview",
+            "imdbRating": "IMDB rating",
+            "addToFavorites": "Add to favorites",
+            "removeFromFavorites": "Remove from favorites"
+        },
+        "favorites": {
+            "removeFromFavorites": "Remove from favorites"
+        }
+    }
+}

@@ -1,0 +1,9 @@
+{
+    "api": {
+        "url": "http://omdbapi.com/?apikey=c39e432c"
+    },
+    "translations": {
+        "language": "en",
+        "url": "http://localhost:5173"
+    }
+}
