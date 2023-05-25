@@ -2,20 +2,13 @@ import { Stack, Box, Button, AppBar } from '@mui/material'
 import { MenuProps } from './types'
 import { menuItems } from './items'
 import { styles } from './styles'
-import { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 
-export const Menu: React.FC<MenuProps> = ({ id = 'app-menu', navigate, location, isMovieSelected }: MenuProps) => {
+export const Menu: React.FC<MenuProps> = ({ id = 'app-menu', navigate, isMovieSelected }: MenuProps) => {
   const { t } = useTranslation()
   const handleNavigation = (path: string) => {
     navigate(`/${path}`)
   }
-
-  useEffect(() => {
-    if (!isMovieSelected && location.pathname === '/details') {
-      navigate('/')
-    }
-  }, [])
 
   return (
     <Box id={id} minWidth={0}>
