@@ -12,7 +12,7 @@ export const AppRoutes = () => {
         <Route element={<RootLayout />}>
           <Route element={<PageLayout />}>
             <Route index element={<ReduxSearchView />} />
-            <Route path="/details" element={<ReduxDetailView />} />
+            <Route path="/details/:id" element={<ReduxDetailView />} />
             <Route path="/favorites" element={<ReduxFavoritesView />} />
           </Route>
         </Route>

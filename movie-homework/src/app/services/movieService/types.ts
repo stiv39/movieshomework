@@ -13,6 +13,7 @@ export type MovieResponse = {
   Response: boolean
   Search: Movie[]
   totalResults: number
+  Error?: string
 }
 
 export type Movie = {
@@ -48,6 +49,8 @@ export type MovieDetails = {
   BoxOffice: string
   Production: string
   Website: string
+  Response: string
+  Error?: string
 }
 
 export type MovieRating = {

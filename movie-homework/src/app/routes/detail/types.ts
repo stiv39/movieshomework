@@ -5,7 +5,6 @@ export type DetailViewOwnActions = {}
 
 export type DetailViewProps = DetailViewPureProps & DetailViewPureActions
 export type DetailViewPureProps = DetailViewOwnProps & {
-  selectedMovieId?: string
   selectedMovieDetails?: MovieDetails
   loading: boolean
 }

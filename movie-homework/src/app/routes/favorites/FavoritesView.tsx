@@ -19,7 +19,7 @@ export const FavoritesView: React.FC<FavoritesViewProps> = ({ onMovieSelect }: F
 
   const handleMovieSelection = (movieId: string) => {
     onMovieSelect(movieId)
-    navigate('/details')
+    navigate(`/details/${movieId}`)
   }
 
   const loadMoviesFromLocalStorage = () => {

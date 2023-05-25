@@ -1,10 +1,11 @@
 import { Button, Grid, TextField } from '@mui/material'
 import { SearchViewProps } from './types'
 import React, { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 import { styles } from './styles'
 import { useTranslation } from 'react-i18next'
 import { MovieCard } from '../../components'
+import useDebounce from '../../hooks/useDebounce'
 
 export const SearchView: React.FC<SearchViewProps> = ({
   moviesResponse,
@@ -19,10 +20,15 @@ export const SearchView: React.FC<SearchViewProps> = ({
   const navigate = useNavigate()
 
   const [page, setPage] = useState<number>(1)
+  const [searchDone, setSearchDone] = useState<boolean>(false)
+
+  const [searchParams, setSearchParams] = useSearchParams()
+
+  const debouncedSearch = useDebounce(searchTerm, 600)
 
   const handleSearch = (searchValue: string) => {
     onSetSearchTerm(searchValue)
-    onLoadMovies(searchValue, 1, false)
+    setSearchParams({ q: searchValue })
   }
 
   const handleLoadMore = () => {
@@ -33,8 +39,24 @@ export const SearchView: React.FC<SearchViewProps> = ({
 
   const handleMovieSelection = (movieId: string) => {
     onMovieSelect(movieId)
-    navigate('/details')
+    navigate(`/details/${movieId}`)
   }
+
+  useEffect(() => {
+    var searchQueryParam = searchParams.get('q') || ''
+    if (searchQueryParam && searchQueryParam !== '') {
+      setSearchDone(true)
+      onSetSearchTerm(searchQueryParam)
+      onLoadMovies(searchQueryParam, 1, false)
+    }
+  }, [])
+
+  useEffect(() => {
+    if (debouncedSearch) {
+      setSearchDone(true)
+      onLoadMovies(searchTerm, 1, false)
+    }
+  }, [debouncedSearch])
 
   useEffect(() => {
     window.scrollTo(0, scrollPosition)
@@ -70,22 +92,26 @@ export const SearchView: React.FC<SearchViewProps> = ({
 
         <Grid item xs={2} />
         <Grid item xs={2} />
-        <Grid item xs={8}>
-          <Grid container>
-            {moviesResponse?.Search &&
-              moviesResponse.Search.length > 0 &&
-              moviesResponse.Search.map((movie) => (
-                <Grid item xs={6} sm={4} md={4} lg={3} xl={2} key={movie.imdbID}>
-                  <MovieCard
-                    id={movie.imdbID}
-                    title={movie.Title}
-                    image={movie.Poster === 'N/A' ? '/assets/notfound.jpg' : movie.Poster}
-                    handleClick={() => handleMovieSelection(movie.imdbID)}
-                  />
-                </Grid>
-              ))}
+        {searchDone && moviesResponse && !moviesResponse.Search ? (
+          <div>{t('app.search.noResults')}</div>
+        ) : (
+          <Grid item xs={8}>
+            <Grid container>
+              {moviesResponse?.Search &&
+                moviesResponse.Search.length > 0 &&
+                moviesResponse.Search.map((movie) => (
+                  <Grid item xs={6} sm={4} md={4} lg={3} xl={2} key={movie.imdbID}>
+                    <MovieCard
+                      id={movie.imdbID}
+                      title={movie.Title}
+                      image={movie.Poster === 'N/A' ? '/assets/notfound.jpg' : movie.Poster}
+                      handleClick={() => handleMovieSelection(movie.imdbID)}
+                    />
+                  </Grid>
+                ))}
+            </Grid>
           </Grid>
-        </Grid>
+        )}
         <Grid item xs={2} />
         <Grid item xs={12} style={{ textAlign: 'center' }}>
           <Button

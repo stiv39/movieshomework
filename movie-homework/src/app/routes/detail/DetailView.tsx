@@ -7,17 +7,20 @@ import FavoriteIcon from '@mui/icons-material/Favorite'
 import HeartBrokenIcon from '@mui/icons-material/HeartBroken'
 import { styles } from './styles'
 import { useTranslation } from 'react-i18next'
+import { useParams } from 'react-router-dom'
 
 export const DetailView: React.FC<DetailViewProps> = ({
-  selectedMovieId,
   selectedMovieDetails,
   loading,
   onLoadMovieDetails,
 }: DetailViewProps) => {
   const { t } = useTranslation()
+
+  const { id } = useParams()
+
   useEffect(() => {
-    if (!selectedMovieDetails || selectedMovieDetails.imdbID !== selectedMovieId) {
-      onLoadMovieDetails(selectedMovieId!)
+    if (id) {
+      onLoadMovieDetails(id)
     }
   }, [])
 
@@ -44,7 +47,10 @@ export const DetailView: React.FC<DetailViewProps> = ({
   return (
     <>
       {loading ? <Loader isLoading={loading} useBackdrop={true} /> : null}
-      {selectedMovieDetails !== undefined && selectedMovieId === selectedMovieDetails.imdbID ? (
+      {!loading &&
+      selectedMovieDetails !== undefined &&
+      selectedMovieDetails.Response === 'True' &&
+      !selectedMovieDetails.Error ? (
         <Grid container sx={styles.main}>
           <Grid item xs={1} lg={1} sx={styles.item}>
             <img
@@ -106,7 +112,9 @@ export const DetailView: React.FC<DetailViewProps> = ({
             </Grid>
           </Grid>
         </Grid>
-      ) : null}
+      ) : (
+        <div> {!loading ? selectedMovieDetails?.Error : ''}</div>
+      )}
     </>
   )
 }

@@ -1,4 +1,4 @@
-import { IMovieService, Movie, MovieDetails, LoadMoviesArgs, MovieResponse } from './types'
+import { IMovieService, MovieDetails, LoadMoviesArgs, MovieResponse } from './types'
 import axios from 'axios'
 
 export class MovieService implements IMovieService {
